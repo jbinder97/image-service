@@ -10,11 +10,12 @@ from image_manager.models import Image
 
 
 class ImageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return Image.objects.filter(uploader=self.request.user)
+        return self.queryset.filter(uploader=self.request.user)
 
     @action(methods=['POST'], detail=False)
     def upload(self, request):
