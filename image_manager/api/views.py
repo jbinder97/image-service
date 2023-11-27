@@ -22,12 +22,13 @@ class ImageViewSet(viewsets.ReadOnlyModelViewSet):
 
         for image_url in image_urls:
             image_url = unquote(image_url)
+
             if Image.objects.filter(url=image_url).exists():
                 image = Image.objects.get(url=image_url)
-                image.download()
             else:
                 image = Image.objects.create(url=image_url, uploader=request.user)
-                image.download()
+
+            image.download()
 
         return Response()
 
